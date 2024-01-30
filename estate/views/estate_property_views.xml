@@ -60,7 +60,11 @@
                 <field name="postcode" />
                 <field name="bedrooms" />
                 <field name="selling_price" />
-                <filter string="Available" name="Disponibles" domain="[('state','=','Offer Received')]" help="Propietas noves o amb ofertes" />
+                <filter string="Available" name="Disponibles" domain="[('state','=','Offer Received')]" help="Propietats noves o amb ofertes" />
+                <group expand="0" string="Group By">
+                    <filter string="Codi Postal" name="Codi Postal"
+                    context="{'group_by':'postcode'}"/>
+                </group>
             </search>
         </field>
     </record>
