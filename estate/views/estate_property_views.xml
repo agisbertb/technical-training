@@ -13,6 +13,7 @@
             <tree string="Propietat Immo">
                 <field name="name" />
                 <field name="description" />
+                <field name="tag_ids"/>
             </tree>
         </field>
     </record>
@@ -25,6 +26,9 @@
                     <group>
                         <group>
                             <field name="name" />
+                        </group>
+                        <group>
+                            <field name="tag_ids"/>
                         </group>
                         <group>
                             <field name="postcode" />
@@ -57,6 +61,7 @@
         <field name="arch" type="xml">
             <search string="Search Property">
                 <field name="name" />
+                <field name="tag_ids"/>
                 <field name="postcode" />
                 <field name="bedrooms" />
                 <field name="selling_price" />
@@ -67,5 +72,10 @@
                 </group>
             </search>
         </field>
+    </record>
+    <record id="estate_property_tag_action" model="ir.actions.act_window">
+        <field name="name">Etiqueta</field>
+        <field name="res_model">estate.property.tag</field>
+        <field name="view_mode">tree,form</field>
     </record>
 </odoo>
