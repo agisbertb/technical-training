@@ -9,7 +9,7 @@
     </record>
 
     <record id="estate_property_tag_action" model="ir.actions.act_window">
-        <field name="name">Etiqueta</field>
+        <field name="name">Etiquetes</field>
         <field name="res_model">estate.property.tag</field>
         <field name="view_mode">tree,form</field>
     </record>
@@ -107,6 +107,13 @@
                 <field name="expected_price" />
                 <field name="state"/>
                 <field name="date_availability" />
+                <field name="selling_price" />
+                <filter string="Disponible" name="Disponibles" domain="[('state','in',['Nova','Oferta Rebuda'])]" help="Propietats noves o amb ofertes" />
+                <filter string="Baix Preu" name="Preu Baix" domain="[('selling_price', '&lt;', 100000)]" help="Propietats amb preu de venda inferior a 100.000 €" />
+                <group expand="0" string="Group By">
+                    <filter string="Tipus" name="Tipus"
+                    context="{'group_by':'type_ids'}"/>
+                </group>
             </search>
         </field>
     </record>
