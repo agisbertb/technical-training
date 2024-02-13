@@ -26,13 +26,26 @@
         <field name="arch" type="xml">
             <tree string="Propietat Immo">
                 <field name="name" />
-                <field name="type_ids"/>
-                <field name="postcode"/>
-                <field name="date_availability"/>
-                <field name="selling_price"/>
-                <field name="salesperson_id"/> 
-                <field name="buyer_id"/>
-                <field name="state"/>
+                <field name="type_ids" />
+                <field name="postcode" />
+                <field name="date_availability" />
+                <field name="selling_price" />
+                <field name="salesperson_id" />
+                <field name="buyer_id" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="estate_property_offer_tree" model="ir.ui.view">
+        <field name="name">estate.property.offer.tree</field>
+        <field name="model">estate.property.offer</field>
+        <field name="arch" type="xml">
+            <tree string="Oferta">
+                <field name="price" />                
+                <field name="status" />
+                <field name="partner_id" />
+                <field name="comments" />
             </tree>
         </field>
     </record>
@@ -43,54 +56,75 @@
         <field name="arch" type="xml">
             <form string="Propietat Immobiliària">
                 <sheet>
-                        <h1>
-                            <field name="name" />
-                        </h1>
+                    <h1>
+                        <field name="name" />
+                    </h1>
+                    <group>
+                        <group col="2">
+                            <field name="postcode" />
+                            <field name="date_availability" />
+                        </group>
+                        <group col="2">
+                            <field name="expected_price" />
+                            <field name="best_offer" />
+                        </group>
+                        <group col="2">
+                            <field name="state" />
+                            <field name="type_ids" />
+                        </group>
                         <group>
-                            <group col="2">
-                                <field name="postcode" />
-                                <field name="date_availability" />
-                            </group>
-                            <group col="2">
-                                <field name="expected_price"/>
-                                <field name="best_offer" />
-                            </group>
-                            <group col="2">
-                                <field name="state" />
-                                <field name="type_ids" />
-                            </group>
-                            <group>
                             <field name="tag_ids" widget='many2many_tags' />
-                            </group>
-                        </group>                     
-                        <notebook>
-                            <page string="Descripció">
-                                <group>
-                                    <group col="2">
-                                        <field name="description" />
-                                        <field name="bedrooms" />
-                                    </group>
-                                    <group col="2">
-                                        <field name="lift" />
-                                        <field name="parking" />
-                                    </group>
-                                    <group col="2">
-                                        <field name="bathrooms" />
-                                        <field name="renewed" />
-                                    </group>
-                                    <group col="2">
-                                        <field name="surface" />
-                                        <field name="year_build" />
-                                    </group>
-                                    <group col="2">
-                                        <field name="energy_certificate" />
-                                    </group>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Descripció">
+                            <group>
+                                <group col="2">
+                                    <field name="description" />
+                                    <field name="bedrooms" />
                                 </group>
-                            </page>
-                            <page string="Ofertes">
+                                <group col="2">
+                                    <field name="lift" />
+                                    <field name="parking" />
+                                </group>
+                                <group col="2">
+                                    <field name="bathrooms" />
+                                    <field name="renewed" />
+                                </group>
+                                <group col="2">
+                                    <field name="surface" />
+                                    <field name="year_build" />
+                                </group>
+                                <group col="2">
+                                    <field name="energy_certificate" />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Ofertes">
+                            <group>
+                                <field name="offer_ids" nolabel="1" colspan="2" />
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
 
-                            </page>
-                        </notebook>
+    <record id="estate_property_offer_view_form" model="ir.ui.view">
+        <field name="name">estate.property.offer.form</field>
+        <field name="model">estate.property.offer</field>
+        <field name="arch" type="xml">
+            <form string="Oferta">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="price" />
+                            <field name="status" />
+                            <field name="partner_id" />
+                            <field name="comments" />
+                        </group>
+                    </group>
                 </sheet>
             </form>
         </field>
@@ -102,17 +136,21 @@
         <field name="arch" type="xml">
             <search string="Search Property">
                 <field name="name" />
-                <field name="type_ids"/>
+                <field name="type_ids" />
                 <field name="postcode" />
                 <field name="expected_price" />
-                <field name="state"/>
+                <field name="state" />
                 <field name="date_availability" />
                 <field name="selling_price" />
-                <filter string="Disponible" name="Disponibles" domain="[('state','in',['Nova','Oferta Rebuda'])]" help="Propietats noves o amb ofertes" />
-                <filter string="Baix Preu" name="Preu Baix" domain="[('selling_price', '&lt;', 100000)]" help="Propietats amb preu de venda inferior a 100.000 €" />
+                <filter string="Disponible" name="Disponibles"
+                    domain="[('state','in',['Nova','Oferta Rebuda'])]"
+                    help="Propietats noves o amb ofertes" />
+                <filter string="Baix Preu" name="Preu Baix"
+                    domain="[('selling_price', '&lt;', 100000)]"
+                    help="Propietats amb preu de venda inferior a 100.000 €" />
                 <group expand="0" string="Group By">
                     <filter string="Tipus" name="Tipus"
-                    context="{'group_by':'type_ids'}"/>
+                        context="{'group_by':'type_ids'}" />
                 </group>
             </search>
         </field>
