@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 
 class EstateProperty(models.Model):
     _name = 'estate.property'
+    _description = 'Propietats Inmobiliàries'
     name = fields.Char('Propietat Inmobiliària', required=True)
     description = fields.Text('Descripció')
     postcode = fields.Char('Codi Postal', required=True)
@@ -12,7 +13,6 @@ class EstateProperty(models.Model):
     best_offer = fields.Float('Millor Oferta', compute='_compute_best_offer', readonly=True)
     state = fields.Selection([('new', 'Nou'), ('offer_received', 'Oferta Rebut'), ('offer_accepted', 'Oferta Acceptada'), ('sold', 'Venut'), ('canceled', 'Cancel·lat')], string='Estat', default='new')
     bedrooms = fields.Integer('Habitacions', required=True)
-    type = fields.Selection([('house', 'Casa'), ('flat', 'Pis'), ('appartment', 'Apartament'), ('penthouse', 'Àtic'), ('studio_house', 'Estudi')], string='Tipus')
     lift = fields.Boolean('Ascensor', default=False)
     parking = fields.Boolean('Parking', default=False)
     renewed = fields.Boolean('Renovat', default=False)
@@ -34,3 +34,4 @@ class EstateProperty(models.Model):
     buyer_id = fields.Many2one('res.partner', string='Comprador')
     salesperson_id = fields.Many2one('res.users', string='Comercial', default=lambda self: self.env.user)
     tag_ids = fields.Many2many('estate.property.tag', string='Etiquetes')
+    type_ids = fields.Many2one('estate.property.type',string='Tipus')

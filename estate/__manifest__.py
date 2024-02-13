@@ -1,6 +1,6 @@
 {
     "name": "Propietats immobiliàries",  # The name that will appear in the App list
-    "version": "16.0.0",  # Version
+    "version": "1.0.0",  # Version
     "author": "Andreu Gisbert Bel",  # Author
     "summary": 'Gestió i seguiment de propietats immobiliàries.', # A brief description of the module
     "application": True,  # This line says the module is an App, and not a module

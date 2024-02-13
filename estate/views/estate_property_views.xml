@@ -1,11 +1,25 @@
 <?xml version="1.0"?>
 
 <odoo>
+
     <record id="estate_property_action" model="ir.actions.act_window">
-        <field name="name">Propietat</field>
+        <field name="name">Propietats Immobiliàries</field>
         <field name="res_model">estate.property</field>
         <field name="view_mode">tree,form</field>
     </record>
+
+    <record id="estate_property_tag_action" model="ir.actions.act_window">
+        <field name="name">Etiqueta</field>
+        <field name="res_model">estate.property.tag</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="estate_property_type_action" model="ir.actions.act_window">
+        <field name="name">Tipus</field>
+        <field name="res_model">estate.property.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
     <record id="estate_property_tree" model="ir.ui.view">
         <field name="name">estate.property.tree</field>
         <field name="model">estate.property</field>
@@ -17,6 +31,7 @@
             </tree>
         </field>
     </record>
+
     <record id="estate_property_view_form" model="ir.ui.view">
         <field name="name">estate.property.form</field>
         <field name="model">estate.property</field>
@@ -25,10 +40,12 @@
                 <sheet>
                     <group>
                         <group>
+                        <h1>
                             <field name="name" />
+                        </h1>
                         </group>
                         <group>
-                            <field name="tag_ids"/>
+                            <field name="tag_ids" widget='many2many_tags' />
                         </group>
                         <group>
                             <field name="postcode" />
@@ -55,6 +72,7 @@
             </form>
         </field>
     </record>
+
     <record id="estate_property_view_filter" model="ir.ui.view">
         <field name="name">estate.property.search</field>
         <field name="model">estate.property</field>
@@ -72,10 +90,5 @@
                 </group>
             </search>
         </field>
-    </record>
-    <record id="estate_property_tag_action" model="ir.actions.act_window">
-        <field name="name">Etiqueta</field>
-        <field name="res_model">estate.property.tag</field>
-        <field name="view_mode">tree,form</field>
     </record>
 </odoo>
