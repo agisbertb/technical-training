@@ -38,36 +38,54 @@
         <field name="arch" type="xml">
             <form string="Propietat Immobiliària">
                 <sheet>
-                    <group>
-                        <group>
                         <h1>
                             <field name="name" />
                         </h1>
-                        </group>
                         <group>
+                            <group col="2">
+                                <field name="postcode" />
+                                <field name="date_availability" />
+                            </group>
+                            <group col="2">
+                                <field name="expected_price"/>
+                                <field name="best_offer" />
+                            </group>
+                            <group col="2">
+                                <field name="state" />
+                                <field name="type_ids" />
+                            </group>
+                            <group>
                             <field name="tag_ids" widget='many2many_tags' />
-                        </group>
-                        <group>
-                            <field name="postcode" />
-                        </group>
-                        <group>
-                            <field name="date_availability" />
-                        </group>
-                        <group>
-                            <field name="selling_price" />
-                        </group>
-                        <group>
-                            <field name="bedrooms" />
-                        </group>
-                        <group>
-                            <field name="state" />
-                        </group>                    
+                            </group>
+                        </group>                     
                         <notebook>
                             <page string="Descripció">
-                                <field name="description" />
+                                <group>
+                                    <group col="2">
+                                        <field name="description" />
+                                        <field name="bedrooms" />
+                                    </group>
+                                    <group col="2">
+                                        <field name="lift" />
+                                        <field name="parking" />
+                                    </group>
+                                    <group col="2">
+                                        <field name="bathrooms" />
+                                        <field name="renewed" />
+                                    </group>
+                                    <group col="2">
+                                        <field name="surface" />
+                                        <field name="year_build" />
+                                    </group>
+                                    <group col="2">
+                                        <field name="energy_certificate" />
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Ofertes">
+                                
                             </page>
                         </notebook>
-                    </group>
                 </sheet>
             </form>
         </field>
