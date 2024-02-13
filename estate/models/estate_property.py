@@ -10,7 +10,7 @@ class EstateProperty(models.Model):
     date_availability = fields.Date('Data Disponibilitat', copy=False, default=lambda self: (datetime.now() + timedelta(days=30)).date())
     expected_price = fields.Float('Preu Esperat')
     selling_price = fields.Float('Preu de Venda', readonly=True, copy=False)
-    best_offer = fields.Float('Millor Oferta', compute='_compute_best_offer', readonly=True)
+    best_offer = fields.Float('Millor Oferta', readonly=True)
     state = fields.Selection([('new', 'Nou'), ('offer_received', 'Oferta Rebuda'), ('offer_accepted', 'Oferta Acceptada'), ('sold', 'Venut'), ('canceled', 'Cancel·lat')], string='Estat', default='new')
     bedrooms = fields.Integer('Habitacions', required=True)
     lift = fields.Boolean('Ascensor', default=False)

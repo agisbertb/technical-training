@@ -102,15 +102,11 @@
         <field name="arch" type="xml">
             <search string="Search Property">
                 <field name="name" />
-                <field name="tag_ids"/>
+                <field name="type_ids"/>
                 <field name="postcode" />
-                <field name="bedrooms" />
-                <field name="selling_price" />
-                <filter string="Available" name="Disponibles" domain="[('state','=','Offer Received')]" help="Propietats noves o amb ofertes" />
-                <group expand="0" string="Group By">
-                    <filter string="Codi Postal" name="Codi Postal"
-                    context="{'group_by':'postcode'}"/>
-                </group>
+                <field name="expected_price" />
+                <field name="state"/>
+                <field name="date_availability" />
             </search>
         </field>
     </record>
