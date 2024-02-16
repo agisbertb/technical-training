@@ -65,7 +65,7 @@
                             <field name="date_availability" />
                         </group>
                         <group col="2">
-                            <field name="expected_price" />
+                            <field name="expected_selling_price" />
                             <field name="best_offer" />
                         </group>
                         <group col="2">
@@ -93,7 +93,7 @@
                                 </group>
                                 <group col="2">
                                     <field name="surface" />
-                                    <field name="year_build" />
+                                    <field name="avg_price" />
                                 </group>
                                 <group col="2">
                                     <field name="energy_certificate" />
@@ -138,7 +138,7 @@
                 <field name="name" />
                 <field name="type_ids" />
                 <field name="postcode" />
-                <field name="expected_price" />
+                <field name="expected_selling_price" />
                 <field name="state" />
                 <field name="date_availability" />
                 <field name="selling_price" />
