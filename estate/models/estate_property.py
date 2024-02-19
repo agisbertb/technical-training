@@ -9,9 +9,9 @@ class EstateProperty(models.Model):
     postcode = fields.Char('Codi Postal', required=True)
     date_availability = fields.Date('Data Disponibilitat', copy=False, default=lambda self: (datetime.now() + timedelta(days=30)).date())
     expected_selling_price = fields.Float('Preu Esperat')
-    selling_price = fields.Float('Preu de Venda', readonly=True, copy=False)
-    best_offer = fields.Float('Millor Oferta', readonly=True)
-    state = fields.Selection([('new', 'Nou'), ('offer_received', 'Oferta Rebuda'), ('offer_accepted', 'Oferta Acceptada'), ('sold', 'Venut'), ('canceled', 'Cancel·lat')], string='Estat', default='new')
+    selling_price = fields.Float('Preu de Venda', readonly=True, copy=False, store=True, compute='_update_selling_details_on_offer_acceptance')
+    state = fields.Selection([('new', 'Nou'), ('offer_received', 'Oferta Rebuda'), ('offer_accepted', 'Oferta Acceptada'),
+    ('rejected', 'Rebutjat'), ('sold', 'Venut'), ('canceled', 'Cancel·lat')], string='Estat', default='new')
     bedrooms = fields.Integer('Habitacions', required=True)
     lift = fields.Boolean('Ascensor', default=False)
     parking = fields.Boolean('Parking', default=False)
@@ -29,13 +29,14 @@ class EstateProperty(models.Model):
         ('F', 'F'),
         ('G', 'G')
     ], string='Certificat Energètic')
-    active = fields.Boolean(default=True)
+    active = fields.Boolean(default=True, invisible=True)
     offer_count = fields.Integer(compute='_compute_offer_count')
-    buyer_id = fields.Many2one('res.partner', string='Comprador')
+    buyer_id = fields.Many2one('res.partner', string='Comprador', compute='_update_selling_details_on_offer_acceptance', store=True)
     salesperson_id = fields.Many2one('res.users', string='Comercial', default=lambda self: self.env.user)
     tag_ids = fields.Many2many('estate.property.tag', string='Etiquetes')
     type_ids = fields.Many2one('estate.property.type', string='Tipus')
     offer_ids = fields.One2many('estate.property.offer', 'property_id', string='Ofertes')
+    best_offer = fields.Float('Millor Oferta', readonly=True, compute='_compute_best_offer')
 
     @api.depends('expected_selling_price', 'surface')
     def _calcularPreuPerMetre(self):
@@ -44,3 +45,22 @@ class EstateProperty(models.Model):
                 record.avg_price = record.expected_selling_price / record.surface
             else:
                 record.avg_price = None
+
+    @api.depends('offer_ids')
+    def _compute_best_offer(self):
+        for record in self:
+            best_offer = max(record.offer_ids.filtered(lambda offer: offer.state != 'rejected'), key=lambda offer: offer.price, default=None)
+            record.best_offer = best_offer.price if best_offer else None
+
+    @api.depends('offer_ids', 'offer_ids.state', 'offer_ids.price', 'offer_ids.partner_id')
+    def _update_selling_details_on_offer_acceptance(self):
+        for record in self:
+            accepted_offer = record.offer_ids.filtered(lambda offer: offer.state == 'Accepted')
+
+            if accepted_offer:
+                record.selling_price = accepted_offer.price
+                record.buyer_id = accepted_offer.partner_id
+            else:
+                record.selling_price = ''
+                record.buyer_id = ''
+                
