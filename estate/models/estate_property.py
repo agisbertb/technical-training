@@ -96,3 +96,4 @@ class EstateProperty(models.Model):
         for record in self:
             if record.selling_price < record.expected_selling_price*0.9:
                 raise ValidationError('El preu de venda no pot ser inferior al preu esperat.')
+                
