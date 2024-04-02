@@ -1,6 +1,6 @@
 from odoo import fields, models, api
 from datetime import datetime, timedelta
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 
 class EstateProperty(models.Model):
     _name = 'estate.property'
@@ -96,4 +96,14 @@ class EstateProperty(models.Model):
         for record in self:
             if record.selling_price < record.expected_selling_price*0.9:
                 raise ValidationError('El preu de venda no pot ser inferior al preu esperat.')
-                
+
+    @api.ondelete(at_uninstall=False)
+    def _unlink_if_property_new_or_canceled(self):
+        if any(property.state not in ([ 'New', 'Canceled']) for property in self):
+            raise UserError("No es pot eliminar una propietat que no és nova o cancel·lada")
+
+    @api.model
+    def create(self, vals):
+        offer = super().create(vals)
+        offer.property_id.state = 'Offer Received'
+        return offer
