@@ -56,6 +56,10 @@
         <field name="model">estate.property</field>
         <field name="arch" type="xml">
             <form string="Propietats immobiliàries">
+                <header>
+                    <button name="cancellarPropietat" type="object" string="Cancel·lar" />
+                    <button name="vendre_propietat" type="object" string="Vendre"/>
+                </header>
                 <sheet>
                     <h1>
                         <field name="name" />

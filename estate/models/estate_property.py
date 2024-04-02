@@ -97,13 +97,29 @@ class EstateProperty(models.Model):
             if record.selling_price < record.expected_selling_price*0.9:
                 raise ValidationError('El preu de venda no pot ser inferior al preu esperat.')
 
+    def cancellarPropietat(self):
+       for record in self:
+           if not record.state == 'sold':
+               record.state = 'canceled'
+           else:
+               raise UserError('No es pot cancel·lar una propietat venuda')
+       return True
+
     @api.ondelete(at_uninstall=False)
     def _unlink_if_property_new_or_canceled(self):
-        if any(property.state not in ([ 'New', 'Canceled']) for property in self):
+        if any(property.state not in ([ 'new', 'canceled']) for property in self):
             raise UserError("No es pot eliminar una propietat que no és nova o cancel·lada")
 
     @api.model
     def create(self, vals):
         offer = super().create(vals)
-        offer.property_id.state = 'Offer Received'
+        offer.property_id.state = 'offer_received'
         return offer
+
+    def vendre_propietat(self):
+        for record in self:
+            if not record.state == 'canceled':
+                record.state = 'sold'
+            else:
+                raise UserError('No es pot vendre propietat cancel·lada')
+        return True
