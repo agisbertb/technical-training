@@ -1,5 +1,6 @@
 from odoo import fields, models, api
 from datetime import datetime, timedelta
+from odoo.exceptions import ValidationError
 
 class EstateProperty(models.Model):
     _name = 'estate.property'
@@ -64,3 +65,34 @@ class EstateProperty(models.Model):
                 record.selling_price = ''
                 record.buyer_id = ''
                 
+    _sql_constraints = [
+        ('check_positive_expected_selling_price',
+    'CHECK(expected_selling_price >= 0)',
+        'El preu esperat ha de ser positiu.'),
+
+        ('check_positive_selling_price',
+        'CHECK(selling_price >= 0)',
+        'El preu de venda ha de ser positiu.'),
+
+        ('check_positive_surface',
+        'CHECK(surface >= 0)',
+        'La superfície ha de ser positiva.'),
+
+        ('check_positive_bedrooms',
+        'CHECK(bedrooms >= 0)',
+        'El nombre d\'habitacions ha de ser positiu.'),
+
+        ('check_positive_bathrooms',
+        'CHECK(bathrooms >= 0)',
+        'El nombre de banys ha de ser positiu.'),
+
+        ('check_positive_year_build',
+        'CHECK(year_build >= 0)',
+        'L\'any de construcció ha de ser positiu.')
+    ]
+
+    @api.depends('selling_price', 'expected_selling_price')
+    def _check_selling_price_vs_expected_selling_price(self):
+        for record in self:
+            if record.selling_price < record.expected_selling_price*0.9:
+                raise ValidationError('El preu de venda no pot ser inferior al preu esperat.')
