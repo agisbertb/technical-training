@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_property_offers">
+        <t t-foreach="docs" t-as="property">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <h1>
+                            <span t-field="property.name"/>
+                        </h1>
+                        <div>
+                            <strong>Venedor: </strong>
+                            <span t-field="property.salesperson_id.name"/>
+                        </div>
+                        <div>
+                            <strong>Preu esperat: </strong>
+                            <span t-field="property.expected_selling_price"/>
+                        </div>
+                        <div>
+                            <strong>Estat: </strong>
+                            <span t-if="property.state=='offer_accepted'">Oferta acceptada</span>
+                            <span t-if="property.state!='offer_accepted'">Oferta no acceptada</span>
+                        </div>
+                        <table class="table table-condensed" style="margin-top: 20px;">
+                            <thead>
+                                <tr>
+                                    <th>Preu</th>
+                                    <th>Comprador</th>
+                                    <th>Estat</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="property.offer_ids" t-as="offer">
+                                    <tr>
+                                        <td style="text-align: center;">
+                                            <span t-field="offer.price"/>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <span t-field="offer.partner_id.name"/>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <span t-field="offer.state"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                                </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

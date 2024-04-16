@@ -110,12 +110,6 @@ class EstateProperty(models.Model):
         if any(property.state not in ([ 'new', 'canceled']) for property in self):
             raise UserError("No es pot eliminar una propietat que no és nova o cancel·lada")
 
-    @api.model
-    def create(self, vals):
-        offer = super().create(vals)
-        offer.property_id.state = 'offer_received'
-        return offer
-
     def vendre_propietat(self):
         for record in self:
             if not record.state == 'canceled':
